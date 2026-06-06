@@ -1,0 +1,48 @@
+# Entorno virtual
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Datos crudos
+*.xls
+*.xlsx
+2019/
+2020/
+2021/
+2022/
+
+# Datos procesados (excluir CSVs pesados y parquets por año)
+data/*.csv
+data/trafico_2019.parquet
+data/trafico_2020.parquet
+data/trafico_2021.parquet
+data/trafico_2022.parquet
+data/*.log
+
+# Archivos temporales
+expanded_datos_trafico_incidentes (1).xls
+
+# Notebooks de proyecto adjunto
+Proyecto_Final_Sapiencia_EAFIT-20260605T175129Z-3-001/
+
+# PDF del proyecto original
+"Proyecto AnalisisDatosIntegrador.pdf"
+
+# Docker
+.dockerignore
+
+# Git
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# ngrok
+ngrok.yml
+ngrok_out.txt
+ngrok_err.txt
+*.log
