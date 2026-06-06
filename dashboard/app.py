@@ -128,7 +128,7 @@ try:
     fig1 = px.line(df_h, x='hora', y='velocidad', markers=True, labels={'hora': 'Hora', 'velocidad': 'km/h'})
     fig1.add_scatter(x=df_h['hora'], y=df_h['intensidad']/df_h['intensidad'].max()*60, yaxis='y2', name='Intensidad (norm.)', line=dict(dash='dot', color='red'))
     fig1.update_layout(yaxis2=dict(overlaying='y', side='right', title=''), title="Velocidad e Intensidad por Hora")
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width='stretch')
 except Exception as e:
     st.error(f"Error en gráfico de velocidad: {e}")
 
@@ -155,7 +155,7 @@ try:
                   color_continuous_scale='RdYlGn_r',
                   labels={'corredor': '', 'idx_cong': '% Congestión', 'vel_prom': 'km/h'})
     fig2.update_layout(xaxis_tickangle=-45)
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width='stretch')
 except Exception as e:
     st.error(f"Error en congestión: {e}")
 
@@ -181,7 +181,7 @@ try:
         fig3 = px.density_heatmap(df_hd, x='hora', y='dia_semana', z='intensidad',
                                   color_continuous_scale='Viridis',
                                   labels={'hora': 'Hora', 'dia_semana': 'Día', 'intensidad': 'veh/h'})
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width='stretch')
 except Exception as e:
     st.error(f"Error en heatmap: {e}")
 
@@ -199,7 +199,7 @@ try:
     fig4.add_trace(go.Bar(name='Velocidad (km/h)', x=df_y['anio'], y=df_y['velocidad']))
     fig4.add_trace(go.Scatter(name='Congestión (%)', x=df_y['anio'], y=df_y['congestion'], yaxis='y2', line=dict(color='red', width=3)))
     fig4.update_layout(yaxis=dict(title='km/h'), yaxis2=dict(overlaying='y', side='right', title='%'))
-    st.plotly_chart(fig4, use_container_width=True)
+    st.plotly_chart(fig4, width='stretch')
 except Exception as e:
     st.error(f"Error en evolución: {e}")
 
@@ -218,7 +218,7 @@ try:
                       category_orders={"mes": orden_meses},
                       labels={'intensidad': 'Vehículos/h', 'mes': 'Mes', 'anio': 'Año'},
                       title="Evolución del Flujo Vehicular por Mes y Año")
-    st.plotly_chart(fig_est, use_container_width=True)
+    st.plotly_chart(fig_est, width='stretch')
 except Exception as e:
     st.error(f"Error en estacionalidad: {e}")
 
@@ -268,7 +268,7 @@ try:
     # Mejorar el fondo y la visibilidad general (cambiar fondo gris por blanco)
     fig_f.update_layout(template="plotly_white", plot_bgcolor='white')
 
-    st.plotly_chart(fig_f, use_container_width=True)
+    st.plotly_chart(fig_f, width='stretch')
     st.info(f"**Fórmula del modelo:** Intensidad = {m:.2f} * (meses) + {b:.2f}. La tendencia indica un {'crecimiento' if m > 0 else 'decrecimiento'} mensual promedio de {abs(m):.2f} vehículos/h.")
 except Exception as e:
     st.error(f"Error en pronóstico: {e}")
@@ -379,7 +379,7 @@ try:
             legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
         )
 
-        evento = st.plotly_chart(fig_map, use_container_width=True, on_select="rerun", key="mapa_interactivo")
+        evento = st.plotly_chart(fig_map, width='stretch', on_select="rerun", key="mapa_interactivo")
 
         # Panel de detalle al hacer clic en un punto
         if evento and evento.selection and evento.selection.points:
@@ -408,7 +408,7 @@ try:
                                                         name='Flujo', yaxis='y2', line=dict(color='blue', dash='dot')))
                         fig_serie.update_layout(yaxis2=dict(overlaying='y', side='right'),
                                                 height=250, margin=dict(l=0, r=0, t=0, b=0))
-                        st.plotly_chart(fig_serie, use_container_width=True)
+                        st.plotly_chart(fig_serie, width='stretch')
 
 except Exception as e:
     st.error(f"Error en mapa: {e}")
@@ -430,7 +430,7 @@ try:
                   color_continuous_scale='Blues',
                   labels={'corredor': '', 'volumen_total': 'Vehículos', 'velocidad': 'km/h'})
     fig5.update_layout(xaxis_tickangle=-45)
-    st.plotly_chart(fig5, use_container_width=True)
+    st.plotly_chart(fig5, width='stretch')
 except Exception as e:
     st.error(f"Error en volumen: {e}")
 
@@ -463,7 +463,7 @@ if inc_con is not None:
                           color_continuous_scale='Reds',
                           labels={'tipo_evento': '', 'total': 'Incidentes', 'vehiculos': 'Veh. promedio'})
         fig_inc1.update_layout(xaxis_tickangle=-30)
-        st.plotly_chart(fig_inc1, use_container_width=True)
+        st.plotly_chart(fig_inc1, width='stretch')
     except Exception as e:
         st.error(f"Error: {e}")
 
@@ -475,7 +475,7 @@ if inc_con is not None:
             inc_grav = inc_f.groupby('gravedad').agg(total=('id_incidente', 'count')).reset_index()
             fig_inc2 = px.pie(inc_grav, values='total', names='gravedad', color='gravedad',
                               color_discrete_map={'Crítico': '#EF553B', 'Moderado': '#FFA15A', 'Leve': '#00CC96'})
-            st.plotly_chart(fig_inc2, use_container_width=True)
+            st.plotly_chart(fig_inc2, width='stretch')
         except Exception as e:
             st.error(f"Error: {e}")
 
@@ -486,7 +486,7 @@ if inc_con is not None:
             fig_inc3 = px.bar(inc_avg, x='anio', y='total', color='gravedad', barmode='group',
                               color_discrete_map={'Crítico': '#EF553B', 'Moderado': '#FFA15A', 'Leve': '#00CC96'},
                               labels={'anio': 'Año', 'total': 'Incidentes', 'gravedad': ''})
-            st.plotly_chart(fig_inc3, use_container_width=True)
+            st.plotly_chart(fig_inc3, width='stretch')
         except Exception as e:
             st.error(f"Error: {e}")
 
@@ -497,7 +497,7 @@ if inc_con is not None:
                           color_continuous_scale='Viridis',
                           labels={'ubicacion': '', 'total': 'Incidentes', 'vehiculos': 'Veh. afectados'})
         fig_inc4.update_layout(xaxis_tickangle=-45)
-        st.plotly_chart(fig_inc4, use_container_width=True)
+        st.plotly_chart(fig_inc4, width='stretch')
     except Exception as e:
         st.error(f"Error: {e}")
 
@@ -521,7 +521,7 @@ if inc_con is not None:
                                                  title="Incidentes: Tamaño = Frecuencia | Color = Vehículos afectados")
                 fig_inc_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0},
                                           mapbox=dict(center=dict(lat=6.2442, lon=-75.5812)))
-                st.plotly_chart(fig_inc_map, use_container_width=True)
+                st.plotly_chart(fig_inc_map, width='stretch')
             else:
                 st.info("No se pudieron geolocalizar las ubicaciones de incidentes.")
     except Exception as e:
@@ -547,7 +547,7 @@ if inc_con is not None:
                                        labels={'intensidad': 'Flujo promedio (veh/h)', 'total_incidentes': 'Total incidentes',
                                                'velocidad': 'Velocidad (km/h)', 'avg_vehiculos_afectados': 'Veh. afectados'},
                                        title="Relación: Flujo Vehicular vs Incidentes por Corredor")
-                st.plotly_chart(fig_cruce, use_container_width=True)
+                st.plotly_chart(fig_cruce, width='stretch')
                 st.caption("Cada punto es un corredor. Se espera que a mayor flujo, más incidentes.")
     except Exception as e:
         st.error(f"Error en comparativa: {e}")
@@ -560,12 +560,12 @@ if inc_con is not None:
             else:
                 df_f = filtrar("")
                 df_raw = df_f[['fecha', 'hora', 'corredor', 'velocidad_kmh', 'intensidad_veh_h', 'ocupacion', 'periodo_dia']].head(500)
-            st.dataframe(df_raw, use_container_width=True)
+            st.dataframe(df_raw, width='stretch')
         except Exception as e:
             st.error(f"Error: {e}")
 
     with st.expander("Ver datos de muestra - Incidentes"):
-        st.dataframe(inc_f.head(500), use_container_width=True)
+        st.dataframe(inc_f.head(500), width='stretch')
 
 else:
     st.info("Datos de incidentes no disponibles (ni en MySQL ni en parquet local).")
