@@ -1,0 +1,8 @@
+version: "2"
+authtoken: 325VSkdA98TOm8XKXDxali6Fcw1_7jdvfaTrHhq3ubaW1BeQH
+tunnels:
+  dashboard:
+    proto: http
+    addr: 8501
+    inspect: false
+    host_header: rewrite
