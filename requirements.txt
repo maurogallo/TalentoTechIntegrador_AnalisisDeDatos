@@ -2,8 +2,4 @@ streamlit
 pandas
 numpy
 plotly
-sqlalchemy
-pymysql
 pyarrow
-openpyxl
-python-calamine
