@@ -341,11 +341,11 @@ try:
     else:
         df_agg = df_agg.fillna(0)
 
-        fig_map = px.scatter_mapbox(
+        fig_map = px.scatter_map(
             df_agg, lat="latitud", lon="longitud",
             color=color_metric, size=size_metric,
             color_continuous_scale="RdYlGn" if color_metric == "velocidad" else "Viridis",
-            size_max=18, zoom=11, mapbox_style="open-street-map",
+            size_max=18, zoom=11, map_style="open-street-map",
             hover_name="corredor",
             hover_data={c: ':.1f' for c in ['velocidad', 'intensidad', 'ocupacion', 'indice_congestion', 'comuna']},
             labels={'velocidad': 'km/h', 'intensidad': 'veh/h', 'ocupacion': '%', 'indice_congestion': ''},
@@ -364,18 +364,18 @@ try:
             inc_map = inc_map.dropna(subset=['latitud', 'longitud'])
 
             if not inc_map.empty:
-                fig_map.add_scattermapbox(
+                fig_map.add_trace(go.Scattermap(
                     lat=inc_map['latitud'], lon=inc_map['longitud'],
                     mode='markers', name='Incidentes',
                     marker=dict(size=inc_map['total_incidentes'] / inc_map['total_incidentes'].max() * 20 + 5,
                                 color='red', opacity=0.6, symbol='x'),
                     hovertext=inc_map['ubicacion'],
                     hoverinfo='text'
-                )
+                ))
 
         fig_map.update_layout(
             margin={"r": 0, "t": 40, "l": 0, "b": 0},
-            mapbox=dict(center=dict(lat=6.2442, lon=-75.5812)),
+            map=dict(center=dict(lat=6.2442, lon=-75.5812)),
             legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
         )
 
@@ -512,15 +512,15 @@ if inc_con is not None:
             inc_map = inc_map.dropna(subset=['latitud', 'longitud'])
 
             if not inc_map.empty:
-                fig_inc_map = px.scatter_mapbox(inc_map, lat="latitud", lon="longitud",
+                fig_inc_map = px.scatter_map(inc_map, lat="latitud", lon="longitud",
                                                  size="total", color="vehiculos",
                                                  color_continuous_scale="RdYlGn_r", size_max=20, zoom=11,
-                                                 mapbox_style="open-street-map",
+                                                 map_style="open-street-map",
                                                  hover_name="ubicacion",
                                                  labels={'total': 'Incidentes', 'vehiculos': 'Veh. afectados'},
                                                  title="Incidentes: Tamaño = Frecuencia | Color = Vehículos afectados")
                 fig_inc_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0},
-                                          mapbox=dict(center=dict(lat=6.2442, lon=-75.5812)))
+                                          map=dict(center=dict(lat=6.2442, lon=-75.5812)))
                 st.plotly_chart(fig_inc_map, width='stretch')
             else:
                 st.info("No se pudieron geolocalizar las ubicaciones de incidentes.")
